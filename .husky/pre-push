@@ -1,0 +1,6 @@
+#!/bin/sh
+. "$(dirname "$0")/_/husky.sh"
+
+echo "Running e2e tests..."
+# uncomment the line below to run e2e tests after setup mongoose in jest
+# yarn test:e2e

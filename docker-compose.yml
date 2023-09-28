@@ -1,0 +1,15 @@
+version: '3.8'
+
+services:
+  journal-api:
+    build:
+      context: .
+    environment:
+      - PORT=3004
+    volumes:
+      # api backend usually requires runtime config, e.g. env
+      - '.env:/srv/.env'
+    ports:
+      - '3004:3004'
+    # entrypoint overwrite to keep the container for debug
+    # entrypoint: tail -f /dev/null

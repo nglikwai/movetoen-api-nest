@@ -1,0 +1,23 @@
+version: '3.8'
+services:
+  mongodb:
+    container_name: triplaner-mongo
+    image: mongo:6-jammy
+    ports:
+      - '27017:27017'
+    volumes:
+      - mongo_data:/data/db
+
+  redis:
+    container_name: triplaner-redis
+    image: redis:6-alpine
+    ports:
+      - '6379:6379'
+    volumes:
+      - redis_data:/data
+      #表示機器當前路徑內的「redis.conf」掛載至容器內的「/usr/local/etc/redis/redis.conf」
+      # - ./redis.conf:/usr/local/etc/redis/redis.conf
+    # command: redis-server /usr/local/etc/redis/redis.conf
+volumes:
+  mongo_data:
+  redis_data:
