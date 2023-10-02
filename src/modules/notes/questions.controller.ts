@@ -1,8 +1,8 @@
 import { Body, Controller, Delete, Get, Param, Patch, Post } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 
-import { CreateNoteDto } from './dto/create-note.dto';
-import { UpdateNoteDto } from './dto/update-note.dto';
+import { CreateQuestionDto } from './dto/create-question.dto';
+import { UpdateQuestionDto } from './dto/update-question.dto';
 import { QuestionsService } from './questions.service';
 
 @ApiTags('questions')
@@ -11,8 +11,8 @@ export class QuestionsController {
   constructor(private readonly questionsService: QuestionsService) {}
 
   @Post()
-  create(@Body() createNoteDto: CreateNoteDto) {
-    return this.questionsService.create(createNoteDto);
+  create(@Body() createQuestionDto: CreateQuestionDto) {
+    return this.questionsService.create(createQuestionDto);
   }
 
   @Get()
@@ -22,16 +22,16 @@ export class QuestionsController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.questionsService.findOne(+id);
+    return this.questionsService.findOne(id);
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateNoteDto: UpdateNoteDto) {
-    return this.questionsService.update(+id, updateNoteDto);
+  update(@Param('id') id: string, @Body() updateQuestionDto: UpdateQuestionDto) {
+    return this.questionsService.update(id, updateQuestionDto);
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.questionsService.remove(+id);
+    return this.questionsService.remove(id);
   }
 }

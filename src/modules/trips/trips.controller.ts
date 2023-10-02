@@ -1,6 +1,7 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Patch, Post, Put, Query } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 
+import { AddMemberDto } from './dto/add-member.dto';
 import { CreateTripDto } from './dto/create-trip.dto';
 import { UpdateTripDto } from './dto/update-trip.dto';
 import { TripsService } from './trips.service';
@@ -16,13 +17,18 @@ export class TripsController {
   }
 
   @Get()
-  findAll() {
-    return this.tripsService.findAll();
+  findAll(@Query('userId') userId: string) {
+    return this.tripsService.findAll(userId);
   }
 
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.tripsService.findOne(+id);
+  }
+
+  @Put(':id/members')
+  addMember(@Param('id') id: string, @Body() addMemberDto: AddMemberDto) {
+    return this.tripsService.addMember(id, addMemberDto);
   }
 
   @Patch(':id')

@@ -30,7 +30,7 @@ import { GoogleRegisterRequestDto, LoginRequestDto } from './dto/login.dto';
 import { ResetPasswordDto } from './dto/resetPassword.dto';
 import { ResetPasswordRequestDto } from './dto/resetPasswordRequest.dto';
 
-const version = '1.0';
+const version = '1';
 
 @ApiTags(`Auth ${version}`)
 @Controller({
@@ -81,10 +81,7 @@ export class AuthController {
 
     // create new google user
     if (body.email && body.googleAccessToken) {
-      const isVerified = await this.authService.verifyGoogleAccessToken(
-        body.email,
-        body.googleAccessToken
-      );
+      const isVerified = await this.authService.verifyGoogleAccessToken(body.email, body.googleAccessToken);
       if (isVerified) {
         const createdUser = await this.usersService.create({
           email: body.email,
@@ -109,19 +106,13 @@ export class AuthController {
   async googleCallback(@Req() req: any, @Res() res: Response) {
     if (!req.user.userKey) {
       res.cookie('wiserjournal_google_access_token', req.user.accessToken, {
-        ...(process.env.COOKIE_DOMAIN
-          ? { domain: process.env.COOKIE_DOMAIN }
-          : {}),
+        ...(process.env.COOKIE_DOMAIN ? { domain: process.env.COOKIE_DOMAIN } : {}),
         path: '/',
         httpOnly: true,
       });
 
       res.redirect(
-        `${
-          process.env.FE_BASE_URL
-        }/login?code=UserNotFound&email=${encodeURIComponent(
-          req.user.email as string
-        )}`
+        `${process.env.FE_BASE_URL}/login?code=UserNotFound&email=${encodeURIComponent(req.user.email as string)}`
       );
 
       return;
@@ -129,19 +120,14 @@ export class AuthController {
 
     await this.authService.login(req.user as User);
 
-    res.redirect(
-      `${process.env.FE_BASE_URL}` +
-        `${process.env.GOOGLE_OAUTH_REDIRECT_TO_FE_PATH}`
-    );
+    res.redirect(`${process.env.FE_BASE_URL}` + `${process.env.GOOGLE_OAUTH_REDIRECT_TO_FE_PATH}`);
   }
 
   @UseGuards(AuthenticatedGuard)
-  @Post('signout')
+  @Post('logout')
   async signout(@Res({ passthrough: true }) res: Response) {
     res.clearCookie(SESSION_ID_NAME, {
-      ...(process.env.COOKIE_DOMAIN
-        ? { domain: process.env.COOKIE_DOMAIN }
-        : {}),
+      ...(process.env.COOKIE_DOMAIN ? { domain: process.env.COOKIE_DOMAIN } : {}),
       path: '/',
     });
   }
@@ -155,17 +141,13 @@ export class AuthController {
   })
   async getProfile(@Req() req: any) {
     const user = await this.usersService.findByEmail(req.user.email as string);
-    return _.omit(user, ['_id', 'password', '__v']);
+    return _.omit(user, ['password', '__v']);
   }
 
   @HttpCode(HttpStatus.OK)
   @Post('reset-password/request')
-  async resetPasswordRequest(
-    @Body() resetPasswordRequestDto: ResetPasswordRequestDto
-  ) {
-    const user = await this.usersService.findByEmail(
-      resetPasswordRequestDto.email
-    );
+  async resetPasswordRequest(@Body() resetPasswordRequestDto: ResetPasswordRequestDto) {
+    const user = await this.usersService.findByEmail(resetPasswordRequestDto.email);
     if (!user) {
       throw new BadRequestException('Email not found');
     }

@@ -67,6 +67,7 @@ async function bootstrap() {
   );
 
   app.enableCors({
+    // origin: [feBaseUrl as string],
     origin: [feBaseUrl as string],
     methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE', 'OPTIONS'],
     allowedHeaders: [

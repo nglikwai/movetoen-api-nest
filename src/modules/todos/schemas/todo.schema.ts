@@ -31,6 +31,9 @@ export class Todo {
   @Prop()
   category: string;
 
+  @Prop()
+  urgent: number;
+
   @Prop({ type: mongoose.Schema.Types.ObjectId })
   plan: string;
 }

@@ -6,8 +6,7 @@ import { Model } from 'mongoose';
 
 import { moveElementInArray } from '@utils/index';
 
-import { CreateNoteDto } from './dto/create-note.dto';
-import { UpdateNoteDto } from './dto/update-note.dto';
+import { UpdateCategoryDto } from './dto/update-category.dto';
 import { Category, CategoryDocument } from './schemas/category.schema';
 import { Order, OrderDocument } from './schemas/order.schema';
 
@@ -43,8 +42,8 @@ export class CategoriesService {
     return `This action returns a #${id} note`;
   }
 
-  async update(id: string, updateNoteDto: UpdateNoteDto) {
-    return this.categoryModel.findByIdAndUpdate(id, updateNoteDto);
+  async update(id: string, updateCategoryDto: UpdateCategoryDto) {
+    return this.categoryModel.findByIdAndUpdate(id, updateCategoryDto);
   }
 
   async remove(id: string) {

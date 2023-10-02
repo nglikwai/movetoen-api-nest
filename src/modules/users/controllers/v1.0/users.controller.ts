@@ -24,7 +24,7 @@ import { SearchUsersGetV1_0ReqDto } from './dto/searchUserGetReq.dto';
 import { SearchUsersGetV1_0ResDto } from './dto/searchUserGetRes.dto';
 import { UpdateUserRequestDto, UpdateUserResponseDto } from './dto/updateUser.dto';
 
-const version = '1.0';
+const version = '1';
 
 @ApiTags(`User ${version}`)
 @Controller({

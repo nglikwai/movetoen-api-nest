@@ -1,7 +1,8 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Patch, Post, Query } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 
 import { CreateLuggageDto } from './dto/create-luggage.dto';
+import { FindAllLuggageQuery } from './dto/find-all-luggage.dto';
 import { UpdateLuggageDto } from './dto/update-luggage.dto';
 import { LuggagesService } from './luggages.service';
 
@@ -16,8 +17,8 @@ export class LuggagesController {
   }
 
   @Get()
-  findAll() {
-    return this.luggagesService.findAll();
+  findAll(@Query() findAllLuggageQuery: FindAllLuggageQuery) {
+    return this.luggagesService.findAll(findAllLuggageQuery.tripId);
   }
 
   @Get(':id')

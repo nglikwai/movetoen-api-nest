@@ -50,6 +50,9 @@ export class User {
     enum: Object.values(UserStatusEnum),
   })
   status!: UserStatusEnum;
+
+  @Prop()
+  name: string;
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);

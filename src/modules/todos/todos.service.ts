@@ -12,12 +12,12 @@ export class TodosService {
   constructor(@InjectModel(Todo.name) private todoModel: Model<TodoDocument>) {}
 
   create(createTodoDto: CreateTodoDto) {
-    return 'This action adds a new todo';
+    return this.todoModel.create(createTodoDto);
   }
 
   async findAll(planId: string) {
-    // const todos = await this.todoModel.find({ plan: planId }).sort({ createdAt: -1 });
-    const todos = await this.todoModel.find().sort({ createdAt: -1 });
+    const todos = await this.todoModel.find({ plan: planId }).sort({ createdAt: -1 });
+    // const todos = await this.todoModel.find().sort({ createdAt: -1 });
     return todos;
   }
 
@@ -25,8 +25,8 @@ export class TodosService {
     return `This action returns a #${id} todo`;
   }
 
-  update(id: number, updateTodoDto: UpdateTodoDto) {
-    return `This action updates a #${id} todo`;
+  update(id: string, updateTodoDto: UpdateTodoDto) {
+    return this.todoModel.findByIdAndUpdate(id, updateTodoDto);
   }
 
   remove(id: number) {

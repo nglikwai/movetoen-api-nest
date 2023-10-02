@@ -1,7 +1,8 @@
-import { Injectable } from '@nestjs/common';
+/* eslint-disable no-underscore-dangle */
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 
-import { Model } from 'mongoose';
+import mongoose, { Model, mongo } from 'mongoose';
 
 import { CreateLuggageDto } from './dto/create-luggage.dto';
 import { UpdateLuggageDto } from './dto/update-luggage.dto';
@@ -15,8 +16,9 @@ export class LuggagesService {
     return this.luggageModel.find({});
   }
 
-  findAll() {
-    return this.luggageModel.find({});
+  findAll(tripId: string) {
+    if (!tripId) return new BadRequestException('Trip id is required');
+    return this.luggageModel.find({ trip: tripId }).populate({ path: 'user', select: ['-password'] });
   }
 
   findOne(id: number) {

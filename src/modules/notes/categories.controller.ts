@@ -2,8 +2,7 @@ import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common'
 import { ApiTags } from '@nestjs/swagger';
 
 import { CategoriesService } from './categories.service';
-import { CreateNoteDto } from './dto/create-note.dto';
-import { UpdateNoteDto } from './dto/update-note.dto';
+import { UpdateQuestionDto } from './dto/update-question.dto';
 
 @ApiTags('notes')
 @Controller({ version: '1', path: 'categories' })
@@ -31,7 +30,7 @@ export class CategoriesController {
   }
 
   @Put(':id')
-  update(@Param('id') id: string, @Body() updateNoteDto: UpdateNoteDto) {
+  update(@Param('id') id: string, @Body() updateNoteDto: UpdateQuestionDto) {
     return this.categoriesService.update(id, updateNoteDto);
   }
 

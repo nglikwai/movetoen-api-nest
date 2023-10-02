@@ -17,8 +17,11 @@ export type TripDocument = Trip & Document;
   versionKey: false,
 })
 export class Trip {
-  @Prop({ type: mongoose.Schema.Types.ObjectId })
-  user: User;
+  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'User' })
+  owner: mongoose.Types.ObjectId;
+
+  @Prop({ type: [mongoose.Schema.Types.ObjectId] })
+  members: string[];
 
   @Prop({ required: true, type: String })
   title: string;

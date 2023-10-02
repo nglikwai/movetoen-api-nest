@@ -3,6 +3,7 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 
 import mongoose, { Document } from 'mongoose';
 
+import { Trip } from '@modules/trips/schemas/trip.schema';
 import { User } from '@modules/users/schemas/user.schema';
 
 export type LuggageDocument = Luggage & Document;
@@ -21,8 +22,8 @@ type Item = {
   versionKey: false,
 })
 export class Luggage {
-  @Prop({ type: mongoose.Schema.Types.ObjectId })
-  user: User;
+  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: User.name })
+  user: mongoose.Types.ObjectId;
 
   @Prop({ required: true, type: String })
   title: string;
@@ -30,8 +31,8 @@ export class Luggage {
   @Prop({ type: String })
   description: string;
 
-  @Prop({ type: Date })
-  size: Date;
+  @Prop({ type: Number })
+  size: number;
 
   @Prop({ type: Date })
   weight: Date;
@@ -41,6 +42,9 @@ export class Luggage {
 
   @Prop({ type: [{ title: String, size: Number, weight: Number }] })
   luggage_list: Item[];
+
+  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: Trip.name })
+  trip: mongoose.Types.ObjectId;
 }
 
 export const LuggageSchema = SchemaFactory.createForClass(Luggage);

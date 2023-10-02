@@ -1,7 +1,10 @@
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 
-import { Document } from 'mongoose';
+import mongoose, { Document } from 'mongoose';
+
+import { Trip } from '@modules/trips/schemas/trip.schema';
+import { User } from '@modules/users/schemas/user.schema';
 
 export type PlanDocument = Plan & Document;
 
@@ -19,11 +22,17 @@ export class Plan {
   @Prop()
   description: string;
 
+  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'User' })
+  user: User;
+
   @Prop({ type: Date })
   deadline: Date;
 
   @Prop()
   password: string;
+
+  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Trip' })
+  trip: Trip;
 }
 
 export const PlanSchema = SchemaFactory.createForClass(Plan);

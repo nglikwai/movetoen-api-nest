@@ -3,30 +3,30 @@ import { InjectModel } from '@nestjs/mongoose';
 
 import { Model } from 'mongoose';
 
-import { CreateNoteDto } from './dto/create-note.dto';
-import { UpdateNoteDto } from './dto/update-note.dto';
+import { CreateQuestionDto } from './dto/create-question.dto';
+import { UpdateQuestionDto } from './dto/update-question.dto';
 import { Question, QuestionDocument } from './schemas/question.schema';
 
 @Injectable()
 export class QuestionsService {
   constructor(@InjectModel(Question.name) private questionModel: Model<QuestionDocument>) {}
-  create(createNoteDto: CreateNoteDto) {
-    return 'This action adds a new note';
+  create(createQuestionDto: CreateQuestionDto) {
+    return this.questionModel.create({ ...createQuestionDto });
   }
 
   findAll() {
     return this.questionModel.find({});
   }
 
-  findOne(id: number) {
+  findOne(id: string) {
     return `This action returns a #${id} note`;
   }
 
-  update(id: number, updateNoteDto: UpdateNoteDto) {
-    return `This action updates a #${id} note`;
+  update(id: string, updateQuestionDto: UpdateQuestionDto) {
+    return this.questionModel.findByIdAndUpdate(id, updateQuestionDto, { new: true });
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} note`;
+  remove(id: string) {
+    return this.questionModel.findByIdAndDelete(id);
   }
 }

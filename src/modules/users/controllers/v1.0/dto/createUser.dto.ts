@@ -1,13 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 
 import { Expose } from 'class-transformer';
-import {
-  IsEmail,
-  IsOptional,
-  IsString,
-  MaxLength,
-  MinLength,
-} from 'class-validator';
+import { IsEmail, IsOptional, IsString, MaxLength, MinLength } from 'class-validator';
 
 import { UserResponseDto } from './user.dto';
 
@@ -29,6 +23,11 @@ export class CreateUserRequestDto {
     example: 'password',
   })
   password?: string;
+
+  @Expose()
+  @IsOptional()
+  @IsString()
+  name?: string;
 }
 
 export class CreateUserResponseDto extends UserResponseDto {}

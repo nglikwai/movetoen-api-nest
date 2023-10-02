@@ -1,9 +1,12 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
-import { PlansService } from './plans.service';
+import { Body, Controller, Delete, Get, Param, Patch, Post, Query } from '@nestjs/common';
+import { ApiTags } from '@nestjs/swagger';
+
 import { CreatePlanDto } from './dto/create-plan.dto';
 import { UpdatePlanDto } from './dto/update-plan.dto';
+import { PlansService } from './plans.service';
 
-@Controller('plans')
+@ApiTags('plans')
+@Controller({ version: '1', path: 'plans' })
 export class PlansController {
   constructor(private readonly plansService: PlansService) {}
 
@@ -13,22 +16,22 @@ export class PlansController {
   }
 
   @Get()
-  findAll() {
-    return this.plansService.findAll();
+  findAll(@Query('tripId') tripId: string) {
+    return this.plansService.findAll(tripId);
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.plansService.findOne(+id);
+  @Get(':tripId')
+  findByTrip(@Param('tripId') tripId: string) {
+    return this.plansService.findOne(tripId);
   }
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() updatePlanDto: UpdatePlanDto) {
-    return this.plansService.update(+id, updatePlanDto);
+    return this.plansService.update(id, updatePlanDto);
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.plansService.remove(+id);
+    return this.plansService.remove(id);
   }
 }

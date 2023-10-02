@@ -15,7 +15,7 @@ export type QuestionDocument = Question & Document;
   versionKey: false,
 })
 export class Question {
-  @Prop({ required: true, type: String })
+  @Prop({ type: String })
   title: string;
 
   @Prop({ type: String })

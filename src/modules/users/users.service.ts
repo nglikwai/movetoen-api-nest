@@ -5,11 +5,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import * as _ from 'lodash';
 import { FilterQuery, Model, SortOrder } from 'mongoose';
 
-import {
-  LISTING_LIMIT_DEFAULT,
-  LISTING_LIMIT_MAX,
-  LISTING_LIMIT_MIN,
-} from '@constants/index';
+import { LISTING_LIMIT_DEFAULT, LISTING_LIMIT_MAX, LISTING_LIMIT_MIN } from '@constants/index';
 import { COUNTER_KEY } from '@modules/counter/constants/counter.constants';
 import { CounterHandlerService } from '@modules/counter/services/counter.handler.service';
 import { CryptoUtility } from '@utils/crypto.utils';
@@ -37,16 +33,13 @@ export class UsersService {
 
   async create(user: CreateUserRequestDto): Promise<User> {
     // create and generate user key
-    const counterResult =
-      await this.counterHandlerService.createOrIncrCounterByKey(
-        COUNTER_KEY.MONGO_DOCUMENT_USER_KEY
-      );
+    const counterResult = await this.counterHandlerService.createOrIncrCounterByKey(
+      COUNTER_KEY.MONGO_DOCUMENT_USER_KEY
+    );
     const { seq } = counterResult;
     const userKey = seq.toString();
 
-    const password = user.password
-      ? CryptoUtility.encryptBySalt(user.password)
-      : null;
+    const password = user.password ? CryptoUtility.encryptBySalt(user.password) : null;
 
     const newUser = new this.userModel(
       password
@@ -66,9 +59,7 @@ export class UsersService {
     return (await newUser.save()).toObject();
   }
 
-  async find(
-    query: SearchUsersGetV1_0ReqDto
-  ): Promise<SearchUsersGetV1_0ResDto> {
+  async find(query: SearchUsersGetV1_0ReqDto): Promise<SearchUsersGetV1_0ResDto> {
     const whitelistFields = ['userKey', 'email'];
 
     const pickedObj = _.pick(query, whitelistFields);
@@ -159,10 +150,6 @@ export class UsersService {
 
   async updatePassword(id: string, newPassword: string): Promise<User> {
     const { hash, salt } = CryptoUtility.encryptBySalt(newPassword);
-    return await this.userModel.findByIdAndUpdate(
-      id,
-      { password: { hash, salt } },
-      { new: true }
-    );
+    return await this.userModel.findByIdAndUpdate(id, { password: { hash, salt } }, { new: true });
   }
 }
