@@ -16,8 +16,12 @@ export class TodosService {
   }
 
   async findAll(planId: string) {
-    const todos = await this.todoModel.find({ plan: planId }).sort({ createdAt: -1 });
+    const todos = await this.todoModel
+      .find({ plan: planId })
+      .sort({ createdAt: -1 })
+      .populate({ path: 'person', select: 'name' });
     // const todos = await this.todoModel.find().sort({ createdAt: -1 });
+
     return todos;
   }
 

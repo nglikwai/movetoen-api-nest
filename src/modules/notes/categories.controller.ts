@@ -1,7 +1,10 @@
-import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Put, Query } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 
+import mongoose from 'mongoose';
+
 import { CategoriesService } from './categories.service';
+import { CreateCategoryDto } from './dto/create-category.dto';
 import { UpdateQuestionDto } from './dto/update-question.dto';
 
 @ApiTags('notes')
@@ -10,18 +13,18 @@ export class CategoriesController {
   constructor(private readonly categoriesService: CategoriesService) {}
 
   @Post()
-  create() {
-    return this.categoriesService.create();
+  create(@Body() createCategoryDto: CreateCategoryDto) {
+    return this.categoriesService.create(createCategoryDto);
   }
 
   @Get()
-  findAll() {
-    return this.categoriesService.findAll();
+  findAll(@Query('tripId') tripId: mongoose.Types.ObjectId) {
+    return this.categoriesService.findAll(tripId);
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.categoriesService.findOne(+id);
+  findOne(@Param('id') id: mongoose.Types.ObjectId) {
+    return this.categoriesService.findOne(id);
   }
 
   @Put('change-position')
@@ -30,12 +33,12 @@ export class CategoriesController {
   }
 
   @Put(':id')
-  update(@Param('id') id: string, @Body() updateNoteDto: UpdateQuestionDto) {
+  update(@Param('id') id: mongoose.Types.ObjectId, @Body() updateNoteDto: UpdateQuestionDto) {
     return this.categoriesService.update(id, updateNoteDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
+  remove(@Param('id') id: mongoose.Types.ObjectId) {
     return this.categoriesService.remove(id);
   }
 }

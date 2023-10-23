@@ -3,6 +3,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 
 import { CategoriesController } from './categories.controller';
 import { CategoriesService } from './categories.service';
+import { OrdersService } from './order.service';
 import { QuestionsController } from './questions.controller';
 import { QuestionsService } from './questions.service';
 import { Category, CategorySchema } from './schemas/category.schema';
@@ -18,6 +19,7 @@ import { Question, QuestionSchema } from './schemas/question.schema';
     ]),
   ],
   controllers: [CategoriesController, QuestionsController],
-  providers: [CategoriesService, QuestionsService],
+  providers: [CategoriesService, QuestionsService, OrdersService],
+  exports: [CategoriesService, QuestionsService, OrdersService],
 })
 export class NotesModule {}

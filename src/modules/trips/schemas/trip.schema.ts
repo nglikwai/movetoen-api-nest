@@ -3,8 +3,6 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 
 import mongoose, { Document } from 'mongoose';
 
-import { User } from '@modules/users/schemas/user.schema';
-
 import { TripStatusEnum } from '@enums/trip.enum';
 
 export type TripDocument = Trip & Document;
@@ -20,7 +18,7 @@ export class Trip {
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'User' })
   owner: mongoose.Types.ObjectId;
 
-  @Prop({ type: [mongoose.Schema.Types.ObjectId] })
+  @Prop({ type: [mongoose.Schema.Types.ObjectId], ref: 'User' })
   members: string[];
 
   @Prop({ required: true, type: String })

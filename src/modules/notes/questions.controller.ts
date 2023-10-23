@@ -1,5 +1,7 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Patch, Post, Query } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
+
+import mongoose from 'mongoose';
 
 import { CreateQuestionDto } from './dto/create-question.dto';
 import { UpdateQuestionDto } from './dto/update-question.dto';
@@ -16,22 +18,22 @@ export class QuestionsController {
   }
 
   @Get()
-  findAll() {
-    return this.questionsService.findAll();
+  findAll(@Query('tripId') tripId: mongoose.Types.ObjectId) {
+    return this.questionsService.findAll(tripId);
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
+  findOne(@Param('id') id: mongoose.Schema.Types.ObjectId) {
     return this.questionsService.findOne(id);
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateQuestionDto: UpdateQuestionDto) {
+  update(@Param('id') id: mongoose.Schema.Types.ObjectId, @Body() updateQuestionDto: UpdateQuestionDto) {
     return this.questionsService.update(id, updateQuestionDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
+  remove(@Param('id') id: mongoose.Schema.Types.ObjectId) {
     return this.questionsService.remove(id);
   }
 }

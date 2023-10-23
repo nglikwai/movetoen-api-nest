@@ -1,16 +1,12 @@
 import { IsOptional, IsString } from 'class-validator';
 import mongoose from 'mongoose';
 
-export class CreatePlanDto {
+export class CreateOrderDto {
   @IsOptional()
   @IsString()
-  title: string;
+  order: mongoose.Types.ObjectId[];
 
   @IsOptional()
   @IsString()
-  description?: string;
-
-  @IsOptional()
-  @IsString()
-  trip: mongoose.Schema.Types.ObjectId;
+  trip: mongoose.Types.ObjectId;
 }

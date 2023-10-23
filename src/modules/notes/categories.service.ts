@@ -2,10 +2,11 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 
-import { Model } from 'mongoose';
+import mongoose, { Model } from 'mongoose';
 
 import { moveElementInArray } from '@utils/index';
 
+import { CreateCategoryDto } from './dto/create-category.dto';
 import { UpdateCategoryDto } from './dto/update-category.dto';
 import { Category, CategoryDocument } from './schemas/category.schema';
 import { Order, OrderDocument } from './schemas/order.schema';
@@ -17,46 +18,48 @@ export class CategoriesService {
     @InjectModel(Order.name) private orderModel: Model<OrderDocument>
   ) {}
 
-  async create() {
-    const categories = await this.categoryModel.find();
+  async create(createCategoryDto: CreateCategoryDto) {
     const order = await this.orderModel.findOne();
-    const category = new this.categoryModel({
-      title: 'New Category',
-    });
-    void category.save();
-
+    const category = await this.categoryModel.create(createCategoryDto);
     order.order = [category._id, ...order.order];
-    void order.save();
+    await order.save();
 
-    return order.order.map((o) =>
-      [{ ...category.toObject(), isNew: true }, ...categories].find((c) => c._id.toString() === o)
-    );
+    return this.findAll(createCategoryDto.trip);
   }
 
-  async findAll() {
-    const categories = await this.categoryModel.find({});
-    return this.orderCategory(categories);
+  async findAll(tripId: mongoose.Types.ObjectId) {
+    const categories = await this.categoryModel.find({ trip: tripId });
+    return this.orderCategory(categories, tripId);
   }
 
-  findOne(id: number) {
+  findOne(id: mongoose.Types.ObjectId) {
     return `This action returns a #${id} note`;
   }
 
-  async update(id: string, updateCategoryDto: UpdateCategoryDto) {
+  async update(id: mongoose.Types.ObjectId, updateCategoryDto: UpdateCategoryDto) {
     return this.categoryModel.findByIdAndUpdate(id, updateCategoryDto);
   }
 
-  async remove(id: string) {
+  async remove(id: mongoose.Types.ObjectId) {
     const category = await this.categoryModel.findByIdAndDelete(id);
     const order = await this.orderModel.findOne();
-    order.order = order.order.filter((o) => o !== id);
+    order.order = order.order.filter((o) => o.toString() !== id.toString());
     void order.save();
     return category;
   }
 
-  async orderCategory(categories) {
-    const { order } = await this.orderModel.findOne();
-    return order.map((o) => categories.find((c: CategoryDocument) => c._id.toString() === o));
+  findCategoryByTrip(tripId: mongoose.Types.ObjectId) {
+    return this.categoryModel.find({ trip: tripId });
+  }
+  async orderCategory(categories: CategoryDocument[], tripId: mongoose.Types.ObjectId) {
+    const order = await this.orderModel.findOne({ trip: tripId });
+    return order.order
+      .map((o) =>
+        categories.find((c: CategoryDocument) => {
+          return c._id.toString() === o.toString();
+        })
+      )
+      .filter((c) => c);
   }
 
   async changePosition(body) {
@@ -69,7 +72,7 @@ export class CategoriesService {
 
     const categorys = await this.categoryModel.find();
 
-    const orderedCategorys = neworder.map((o) => categorys.find((c) => c._id.toString() === o));
+    const orderedCategorys = neworder.map((o) => categorys.find((c) => c._id.toString() === o.toString()));
     return orderedCategorys;
   }
 }

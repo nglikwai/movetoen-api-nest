@@ -14,9 +14,11 @@ import { UsersModule } from '@modules/users/users.module';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { CacheModule } from './modules/cache/cache.module';
+import { DraftsModule } from './modules/drafts/drafts.module';
 import { EmailsModule } from './modules/emails/emails.module';
 import { LuggagesModule } from './modules/luggages/luggages.module';
 import { NotesModule } from './modules/notes/notes.module';
+import { PlannersModule } from './modules/planners/planners.module';
 import { PlansModule } from './modules/plans/plans.module';
 import { TodosModule } from './modules/todos/todos.module';
 import { TripsModule } from './modules/trips/trips.module';
@@ -64,6 +66,8 @@ import { TripsModule } from './modules/trips/trips.module';
     LuggagesModule,
     TodosModule,
     PlansModule,
+    DraftsModule,
+    PlannersModule,
   ],
   controllers: [AppController],
   providers: [

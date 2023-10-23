@@ -3,7 +3,7 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 
 import mongoose, { Document } from 'mongoose';
 
-export type OrderDocument = Order & Document;
+export type NoteDocument = Note & Document;
 
 @Schema({
   toObject: {
@@ -12,12 +12,12 @@ export type OrderDocument = Order & Document;
   timestamps: true,
   versionKey: false,
 })
-export class Order {
-  @Prop({ required: true, type: [mongoose.Schema.Types.ObjectId], ref: 'Category' })
-  order: mongoose.Schema.Types.ObjectId[];
+export class Note {
+  @Prop({ required: true, type: [String] })
+  order: string[];
 
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Trip' })
   trip: mongoose.Schema.Types.ObjectId;
 }
 
-export const OrderSchema = SchemaFactory.createForClass(Order);
+export const NoteSchema = SchemaFactory.createForClass(Note);

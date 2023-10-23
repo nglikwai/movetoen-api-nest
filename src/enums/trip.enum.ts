@@ -2,4 +2,5 @@
 export enum TripStatusEnum {
   ACTIVE = 'active',
   SUSPENDED = 'suspended',
+  DELETED = 'deleted',
 }

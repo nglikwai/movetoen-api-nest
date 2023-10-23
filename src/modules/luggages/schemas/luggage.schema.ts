@@ -25,19 +25,19 @@ export class Luggage {
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: User.name })
   user: mongoose.Types.ObjectId;
 
-  @Prop({ required: true, type: String })
+  @Prop({ required: true, type: String, default: 'Check Luggage' })
   title: string;
 
   @Prop({ type: String })
   description: string;
 
-  @Prop({ type: Number })
+  @Prop({ type: Number, default: 100 })
   size: number;
 
-  @Prop({ type: Date })
-  weight: Date;
+  @Prop({ type: Number, default: 18 })
+  weight: number;
 
-  @Prop()
+  @Prop({ type: String, default: 'luggage-xl' })
   type: string;
 
   @Prop({ type: [{ title: String, size: Number, weight: Number }] })

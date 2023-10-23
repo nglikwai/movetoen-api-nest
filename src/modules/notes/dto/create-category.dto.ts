@@ -1,4 +1,5 @@
 import { IsOptional, IsString } from 'class-validator';
+import mongoose from 'mongoose';
 
 export class CreateCategoryDto {
   @IsOptional()
@@ -8,4 +9,7 @@ export class CreateCategoryDto {
   @IsOptional()
   @IsString()
   description: string;
+
+  @IsString()
+  trip: mongoose.Types.ObjectId;
 }

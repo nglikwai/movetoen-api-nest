@@ -5,7 +5,7 @@ import mongoose, { Document } from 'mongoose';
 
 import { Trip } from '@modules/trips/schemas/trip.schema';
 
-export type CategoryDocument = Category & Document;
+export type DraftDocument = Draft & Document;
 
 @Schema({
   toObject: {
@@ -14,15 +14,12 @@ export type CategoryDocument = Category & Document;
   timestamps: true,
   versionKey: false,
 })
-export class Category {
-  @Prop({ required: true, type: String })
-  title: string;
-
+export class Draft {
   @Prop({ type: String })
-  description: string;
+  content: string;
 
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: Trip.name })
   trip: mongoose.Types.ObjectId;
 }
 
-export const CategorySchema = SchemaFactory.createForClass(Category);
+export const DraftSchema = SchemaFactory.createForClass(Draft);

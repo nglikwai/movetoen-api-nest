@@ -30,8 +30,8 @@ export class Question {
   @Prop({ type: String })
   map_url: string;
 
-  @Prop({ type: mongoose.Schema.Types.ObjectId })
-  category: Category;
+  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: Category.name })
+  category: mongoose.Types.ObjectId;
 }
 
 export const QuestionSchema = SchemaFactory.createForClass(Question);

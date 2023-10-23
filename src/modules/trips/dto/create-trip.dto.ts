@@ -10,7 +10,7 @@ export class CreateTripDto {
   @ApiPropertyOptional()
   @IsOptional()
   @IsObjectId()
-  user: mongoose.Types.ObjectId;
+  user: mongoose.Schema.Types.ObjectId;
 
   @ApiProperty()
   @IsString()
@@ -35,4 +35,8 @@ export class CreateTripDto {
   @IsOptional()
   @IsDateString()
   end_date: string;
+
+  @ApiPropertyOptional()
+  @IsOptional()
+  members: mongoose.Schema.Types.ObjectId[];
 }

@@ -2,7 +2,7 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 
-import mongoose, { Model, mongo } from 'mongoose';
+import mongoose, { Model } from 'mongoose';
 
 import { CreateLuggageDto } from './dto/create-luggage.dto';
 import { UpdateLuggageDto } from './dto/update-luggage.dto';
@@ -13,7 +13,8 @@ export class LuggagesService {
   constructor(@InjectModel(Luggage.name) private luggageModel: Model<LuggageDocument>) {}
 
   create(createLuggageDto: CreateLuggageDto) {
-    return this.luggageModel.find({});
+    const luggage = new this.luggageModel(createLuggageDto);
+    return luggage.save();
   }
 
   findAll(tripId: string) {
@@ -25,8 +26,8 @@ export class LuggagesService {
     return `This action returns a #${id} luggage`;
   }
 
-  update(id: number, updateLuggageDto: UpdateLuggageDto) {
-    return `This action updates a #${id} luggage`;
+  update(id: mongoose.Types.ObjectId, updateLuggageDto: UpdateLuggageDto) {
+    return this.luggageModel.findByIdAndUpdate(id, updateLuggageDto, { new: true });
   }
 
   remove(id: number) {

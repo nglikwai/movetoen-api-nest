@@ -12,7 +12,7 @@ export class PlansService {
   constructor(@InjectModel(Plan.name) private planModel: Model<PlanDocument>) {}
 
   create(createPlanDto: CreatePlanDto) {
-    return 'This action adds a new plan';
+    return this.planModel.create(createPlanDto);
   }
 
   findAll(tripId: string) {

@@ -1,6 +1,8 @@
 import { Body, Controller, Delete, Get, Param, Patch, Post, Query } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 
+import mongoose from 'mongoose';
+
 import { CreateLuggageDto } from './dto/create-luggage.dto';
 import { FindAllLuggageQuery } from './dto/find-all-luggage.dto';
 import { UpdateLuggageDto } from './dto/update-luggage.dto';
@@ -27,8 +29,8 @@ export class LuggagesController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateLuggageDto: UpdateLuggageDto) {
-    return this.luggagesService.update(+id, updateLuggageDto);
+  update(@Param('id') id: mongoose.Types.ObjectId, @Body() updateLuggageDto: UpdateLuggageDto) {
+    return this.luggagesService.update(id, updateLuggageDto);
   }
 
   @Delete(':id')

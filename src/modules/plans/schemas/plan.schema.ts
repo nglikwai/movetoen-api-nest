@@ -23,7 +23,7 @@ export class Plan {
   description: string;
 
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'User' })
-  user: User;
+  user: mongoose.Schema.Types.ObjectId;
 
   @Prop({ type: Date })
   deadline: Date;
@@ -32,7 +32,7 @@ export class Plan {
   password: string;
 
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Trip' })
-  trip: Trip;
+  trip: mongoose.Schema.Types.ObjectId;
 }
 
 export const PlanSchema = SchemaFactory.createForClass(Plan);
