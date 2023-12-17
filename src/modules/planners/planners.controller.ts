@@ -1,4 +1,5 @@
 import { Body, Controller, Delete, Get, Param, Patch, Post } from '@nestjs/common';
+import { ApiTags } from '@nestjs/swagger';
 
 import mongoose from 'mongoose';
 
@@ -6,6 +7,7 @@ import { CreatePlannerDto } from './dto/create-planner.dto';
 import { UpdatePlannerDto } from './dto/update-planner.dto';
 import { PlannersService } from './planners.service';
 
+@ApiTags('planners')
 @Controller({ version: '1', path: 'planners' })
 export class PlannersController {
   constructor(private readonly plannersService: PlannersService) {}
@@ -27,7 +29,7 @@ export class PlannersController {
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() updatePlannerDto: UpdatePlannerDto) {
-    return this.plannersService.update(+id, updatePlannerDto);
+    return this.plannersService.update(id, updatePlannerDto);
   }
 
   @Delete(':id')

@@ -1,14 +1,17 @@
 import { Injectable } from '@nestjs/common';
+import { InjectModel } from '@nestjs/mongoose';
 
-import mongoose from 'mongoose';
+import mongoose, { Model } from 'mongoose';
 
 import { CreatePlannerDto } from './dto/create-planner.dto';
 import { UpdatePlannerDto } from './dto/update-planner.dto';
+import { Planner, PlannerDocument } from './schemas/planner.schema';
 
 @Injectable()
 export class PlannersService {
+  constructor(@InjectModel(Planner.name) private plannerModel: Model<PlannerDocument>) {}
   create(createPlannerDto: CreatePlannerDto) {
-    return 'This action adds a new planner';
+    return this.plannerModel.create(createPlannerDto);
   }
 
   findAll() {
@@ -16,31 +19,11 @@ export class PlannersService {
   }
 
   findOne(tripId: mongoose.Types.ObjectId) {
-    return {
-      tripId,
-      _id: 'dsf2ffsafddsasdasd11',
-      tripPlan: Array(10)
-        .fill(1)
-        .map((_, i) => ({
-          day: i + 1,
-          spotPlans: [
-            {
-              time: '09:00',
-              location: 'Seoul',
-              transport: {
-                type: 'train',
-                number: 'KTX',
-              },
-              description: 'A Sea view spot',
-              expense: 10000,
-            },
-          ],
-        })),
-    };
+    return this.plannerModel.findOne({ tripId });
   }
 
-  update(id: number, updatePlannerDto: UpdatePlannerDto) {
-    return `This action updates a #${id} planner`;
+  update(tripId: string, updatePlannerDto: UpdatePlannerDto) {
+    return this.plannerModel.findOneAndUpdate({ tripId }, updatePlannerDto);
   }
 
   remove(id: number) {

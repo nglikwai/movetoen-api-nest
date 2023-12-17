@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Patch, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Patch, Post } from '@nestjs/common';
 
 import mongoose from 'mongoose';
 
@@ -16,12 +16,17 @@ export class DraftsController {
   }
 
   @Get(':tripId')
-  findOne(@Param('tripId') tripId: mongoose.Types.ObjectId) {
-    return this.draftsService.findOne(tripId);
+  findByOneTrip(@Param('tripId') tripId: mongoose.Types.ObjectId) {
+    return this.draftsService.findByOneTrip(tripId);
   }
 
-  @Patch(':tripId')
-  update(@Param('tripId') tripId: mongoose.Types.ObjectId, @Body() updateDraftDto: UpdateDraftDto) {
-    return this.draftsService.update(tripId, updateDraftDto);
+  @Patch(':draftId')
+  update(@Param('draftId') draftId: mongoose.Types.ObjectId, @Body() updateDraftDto: UpdateDraftDto) {
+    return this.draftsService.update(draftId, updateDraftDto);
+  }
+
+  @Delete(':draftId')
+  remove(@Param('draftId') draftId: mongoose.Types.ObjectId) {
+    return this.draftsService.remove(draftId);
   }
 }

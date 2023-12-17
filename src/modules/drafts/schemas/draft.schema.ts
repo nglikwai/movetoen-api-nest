@@ -15,6 +15,9 @@ export type DraftDocument = Draft & Document;
   versionKey: false,
 })
 export class Draft {
+  @Prop({ type: String, default: 'New Draft' })
+  title: string;
+
   @Prop({ type: String })
   content: string;
 

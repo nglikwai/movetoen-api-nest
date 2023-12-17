@@ -1,6 +1,11 @@
-import { IsString } from 'class-validator';
+import { IsOptional, IsString } from 'class-validator';
 
 export class UpdateDraftDto {
+  @IsOptional()
   @IsString()
-  draftContent: string;
+  title: string;
+
+  @IsOptional()
+  @IsString()
+  content: string;
 }

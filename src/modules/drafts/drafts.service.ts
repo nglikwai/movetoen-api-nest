@@ -14,15 +14,19 @@ export class DraftsService {
     return this.draftModel.create(createDraftDto);
   }
 
-  async findOne(tripId: mongoose.Types.ObjectId) {
-    let draft = await this.draftModel.findOne({ trip: tripId });
-    if (!draft) {
-      draft = await this.draftModel.create({ trip: tripId });
+  async findByOneTrip(tripId: mongoose.Types.ObjectId) {
+    const drafts = await this.draftModel.find({ trip: tripId });
+    if (!drafts) {
+      return [await this.draftModel.create({ trip: tripId })];
     }
-    return draft;
+    return drafts;
   }
 
-  update(tripId: mongoose.Types.ObjectId, updateDraftDto: UpdateDraftDto) {
-    return this.draftModel.findOneAndUpdate({ trip: tripId }, { content: updateDraftDto.draftContent }, { new: true });
+  update(draftId: mongoose.Types.ObjectId, updateDraftDto: UpdateDraftDto) {
+    return this.draftModel.findByIdAndUpdate(draftId, updateDraftDto, { new: true });
+  }
+
+  remove(draftId: mongoose.Types.ObjectId) {
+    return this.draftModel.findByIdAndDelete(draftId);
   }
 }
