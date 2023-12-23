@@ -19,9 +19,10 @@ export class CategoriesService {
   ) {}
 
   async create(createCategoryDto: CreateCategoryDto) {
-    const order = await this.orderModel.findOne();
+    const order = await this.orderModel.findOne({ trip: createCategoryDto.trip });
     const category = await this.categoryModel.create(createCategoryDto);
     order.order = [category._id, ...order.order];
+    console.log(order);
     await order.save();
 
     return this.findAll(createCategoryDto.trip);
@@ -53,6 +54,7 @@ export class CategoriesService {
   }
   async orderCategory(categories: CategoryDocument[], tripId: mongoose.Types.ObjectId) {
     const order = await this.orderModel.findOne({ trip: tripId });
+    console.log(order);
     return order.order
       .map((o) =>
         categories.find((c: CategoryDocument) => {

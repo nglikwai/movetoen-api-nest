@@ -35,5 +35,10 @@ export class CreateTodoDto {
   @ApiProperty()
   @IsString()
   @IsOptional()
+  tag: string;
+
+  @ApiProperty()
+  @IsString()
+  @IsOptional()
   plan: mongoose.Types.ObjectId;
 }

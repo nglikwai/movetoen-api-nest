@@ -41,7 +41,11 @@ export class TripsService {
     return this.tripModel.find().populate({ path: 'members', select: ['name', 'email'] });
   }
 
-  findOne(userId: mongoose.Types.ObjectId) {
+  findOne(tripId: mongoose.Types.ObjectId) {
+    return this.tripModel.findById(tripId).populate({ path: 'members', select: ['name', 'email'] });
+  }
+
+  findByUser(userId: mongoose.Types.ObjectId) {
     return this.tripModel.find({ members: { $in: [userId] } }).populate({ path: 'members', select: ['name', 'email'] });
   }
 

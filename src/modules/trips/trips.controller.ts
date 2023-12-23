@@ -23,9 +23,15 @@ export class TripsController {
     return this.tripsService.findAll();
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: mongoose.Types.ObjectId) {
-    return this.tripsService.findOne(id);
+  @Get('/user/:userId')
+  findByUser(@Param('userId') userId: mongoose.Types.ObjectId) {
+    console.log(userId);
+    return this.tripsService.findByUser(userId);
+  }
+
+  @Get(':tripId')
+  findOne(@Param('tripId') tripId: mongoose.Types.ObjectId) {
+    return this.tripsService.findOne(tripId);
   }
 
   @Put(':id/members')

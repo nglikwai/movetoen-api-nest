@@ -39,6 +39,9 @@ export class Todo {
 
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: Plan.name })
   plan: mongoose.Types.ObjectId;
+
+  @Prop()
+  tag: string;
 }
 
 export const TodoSchema = SchemaFactory.createForClass(Todo);

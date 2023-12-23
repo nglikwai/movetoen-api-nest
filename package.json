@@ -8,6 +8,7 @@
   "scripts": {
     "build": "nest build",
     "docker": "docker build --platform linux/amd64 -t dse00b/movetoen-api-nest .",
+    "deploy": "node deploy",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "start": "nest start",
     "start:dev": "nest start --watch",

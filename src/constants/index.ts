@@ -1,4 +1,4 @@
-export const SESSION_ID_NAME = 'wiserjournal_session';
+export const SESSION_ID_NAME = 'triplaner_session';
 
 export const LISTING_LIMIT_DEFAULT = 10;
 export const LISTING_LIMIT_MIN = 1;

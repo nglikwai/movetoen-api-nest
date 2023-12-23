@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 
-import { Model } from 'mongoose';
+import mongoose, { Model } from 'mongoose';
 
 import { CreatePlanDto } from './dto/create-plan.dto';
 import { UpdatePlanDto } from './dto/update-plan.dto';
@@ -15,11 +15,11 @@ export class PlansService {
     return this.planModel.create(createPlanDto);
   }
 
-  findAll(tripId: string) {
+  findAll(tripId: mongoose.Types.ObjectId) {
     if (!tripId) {
       return null;
     }
-    return this.planModel.find({ trip: tripId });
+    return this.planModel.find({ trip: tripId }).sort({ createdAt: -1 });
   }
 
   findOne(tripId: string) {

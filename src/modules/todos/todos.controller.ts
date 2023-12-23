@@ -1,6 +1,8 @@
 import { Body, Controller, Delete, Get, Param, Patch, Post, Query } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 
+import mongoose from 'mongoose';
+
 import { CreateTodoDto } from './dto/create-todo.dto';
 import { UpdateTodoDto } from './dto/update-todo.dto';
 import { TodosService } from './todos.service';
@@ -16,13 +18,13 @@ export class TodosController {
   }
 
   @Get()
-  findAll(@Query('planId') planId: string) {
+  findAll(@Query('planId') planId: mongoose.Types.ObjectId) {
     return this.todosService.findAll(planId);
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.todosService.findOne(+id);
+  @Get('trip/:tripId')
+  findByTrip(@Param('tripId') id: mongoose.Types.ObjectId) {
+    return this.todosService.findByTrip(id);
   }
 
   @Patch(':id')

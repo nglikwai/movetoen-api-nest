@@ -1,6 +1,8 @@
 import { Body, Controller, Delete, Get, Param, Patch, Post, Query } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 
+import mongoose from 'mongoose';
+
 import { CreatePlanDto } from './dto/create-plan.dto';
 import { UpdatePlanDto } from './dto/update-plan.dto';
 import { PlansService } from './plans.service';
@@ -16,7 +18,7 @@ export class PlansController {
   }
 
   @Get()
-  findAll(@Query('tripId') tripId: string) {
+  findAll(@Query('tripId') tripId: mongoose.Types.ObjectId) {
     return this.plansService.findAll(tripId);
   }
 

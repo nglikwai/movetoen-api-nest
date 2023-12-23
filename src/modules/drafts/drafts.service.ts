@@ -15,7 +15,7 @@ export class DraftsService {
   }
 
   async findByOneTrip(tripId: mongoose.Types.ObjectId) {
-    const drafts = await this.draftModel.find({ trip: tripId });
+    const drafts = await this.draftModel.find({ trip: tripId }).sort({ updatedAt: -1 });
     if (!drafts) {
       return [await this.draftModel.create({ trip: tripId })];
     }
